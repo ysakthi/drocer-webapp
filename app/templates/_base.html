@@ -1,0 +1,38 @@
+{#
+    Base layout.
+-#}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/materialize.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/prism.css') }}">
+    {% block head -%}
+    {% endblock head -%}
+    <title>{% block title %}{% endblock title %}</title>
+  </head>
+  <body>
+  <header>
+  </header>
+  <main>
+  {% block body -%}
+  {% endblock body -%}
+  </main>
+  <footer>
+  <div class="footer-copyright">
+    <div class="container">
+    © 2016 Open Cleveland.
+    </div>
+  </div>
+  </footer>
+  </body>
+  <script src="{{ url_for('static', filename='js/jquery-3.1.0.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/prism.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/sha.js') }}"></script>
+{% block script -%}
+{% endblock script -%}
+</html>
