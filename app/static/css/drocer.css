@@ -1,0 +1,6 @@
+
+/* add padding for always-on fixed side nav */
+header, main, footer {
+    padding-left: 300px;
+}
+          

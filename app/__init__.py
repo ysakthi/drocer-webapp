@@ -23,7 +23,7 @@ logger.info('WSGI application initialized.')
 @wsgi_app.errorhandler(404)
 def error_handler_404(error):
     logger.error(error)
-    return "File note found.", 404
+    return "File not found.", 404
 
 @wsgi_app.errorhandler(Exception)
 def error_handler_500(error):
@@ -44,4 +44,7 @@ def route_landing():
 def route_about():
     return render_template('about.html')
 
+@wsgi_app.route('/browse', methods=['GET'])
+def route_browse():
+    return render_template('browse.html')
 

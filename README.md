@@ -16,3 +16,8 @@ pip install -r requirements.txt
 
  - Development environment server: `python run.py`.
  - Production server configuration is defined in drocer.wsgi
+
+## Baked-in Dependencies
+ - [jQuery](https://jquery.com/)
+ - [Materialize CSS](http://materializecss.com/)
+ - [Prism JS](http://prismjs.com/)

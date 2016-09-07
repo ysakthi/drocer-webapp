@@ -8,23 +8,72 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/open-cleveland.png') }}" sizes="100x100">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/materialize.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/prism.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/drocer.css') }}">
     {% block head -%}
     {% endblock head -%}
-    <title>{% block title %}{% endblock title %}</title>
+    <title>
+        Cleveland City Record Search
+        {% if self.title()|trim %}:{% endif -%}
+        {% block title %}{% endblock title -%}
+    </title>
   </head>
   <body>
-  <header>
-  </header>
-  <main>
+    <header>
+      <div id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
+        <div class="container"  style="padding-top: 15px;">
+            <div class="row green">
+                <div class="col white-text">
+                    <h5>Cleveland City Record Search</h5>
+                </div>
+            </div>
+            <div class="row">
+                <input id="search">
+                
+                <button class="btn green"><i class="material-icons">search</i> Search</button>
+            </div>
+            <div id="search-results" class="row">
+            </div>
+        </div>
+        <ul>
+        <li class="logo">
+            <div style="float: left; clear: none;">
+                <a id="logo-container" href="{{ url_for('route_landing') }}" class="brand-logo waves-effect waves-green">
+                    <img class="" style="height: 48px;" src="{{ url_for('static', filename='images/open-cleveland.png') }}">
+                </a>
+            </div>
+            <div style="float: left; clear: none;">
+                <a id="logo-container" href="{{ url_for('route_landing') }}" class="brand-logo waves-effect waves-green">
+                    <span class="" style="line-height: 64px;">Open Cleveland</span>
+                </a>
+            </div>
+            <div class="clearfix"></div>
+        </li>
+        <li class="bold">
+            <a href="{{ url_for('route_browse') }}" class="waves-effect waves-green">Browse</a>
+        </li>
+        <li class="bold">
+            <a href="{{ url_for('route_about') }}" class="waves-effect waves-green">About</a>
+        </li>
+      </ul>
+      </div>
+    </header>  
+    <main>
+    <div class="container">
+        <div class="row">
   {% block body -%}
   {% endblock body -%}
+        </div>
+    </div>
   </main>
-  <footer>
+  <footer class="page-footer green">
   <div class="footer-copyright">
     <div class="container">
+        <div class="row">
     © 2016 Open Cleveland.
+        </div>
     </div>
   </div>
   </footer>
