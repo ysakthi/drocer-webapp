@@ -10,6 +10,7 @@ OUTPUT_PATH = '../data/json'
 
 import logging
 import json
+import jsonpickle
 import os
 import re
 import timeit
@@ -86,7 +87,8 @@ def write_json(output_directory, document):
     output_filename = '%s.json' % (os.path.split(document.source_document_path)[1].split('.')[0])
     output_path = os.path.join(output_directory, output_filename)
     with open(output_path, 'w') as f:
-        json.dump(document, f, default=DrocerSerializable.serialize)
+        #json.dump(document, f, default=DrocerSerializable.serialize) #old
+        f.write(jsonpickle.encode(document))
 
 
 if __name__ == '__main__':
