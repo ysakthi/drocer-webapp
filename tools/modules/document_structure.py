@@ -1,0 +1,122 @@
+import hashlib
+import logging
+
+class DrocerSerializable(object):
+    """
+    Superclass for document components.
+    """
+    meta = {} # object metadata, extensible
+    logger = logging.getLogger(__name__)
+    def add_metadata(self, key, value):
+        self.logger.debug('[%s] = %s' % (key, value))
+        """
+        If reference object is supplied, then self.meta[key][value] is a
+        dict.  Otherwise, self.meta[key][value] is a value.
+        @param reference DrocerMetadata Optional.
+        """
+        if key in self.meta.keys():
+            for item in self.meta[key]:
+                if value == item:
+                    self.logger.error('duplicate value: new=%s,  old=%s' % (value, item))
+                    return # short circuit duplicates
+            self.meta[key].append(value)
+        else:
+            self.meta[key] = []
+            self.meta[key].append(value)
+
+    def serial(self):
+        d = self.__dict__.copy()
+        d.update({
+            'meta': self.meta
+        })
+        return d
+
+    @staticmethod
+    def serialize(obj):
+        if hasattr(obj, 'serial'):
+            return obj.serial()
+
+class DrocerMetadata(DrocerSerializable):
+    _dict = {}
+
+    def __init__(self, initializer_dict):
+        self._dict = initializer_dict.copy()
+        self.meta = None
+
+    def __cmp__(self, other):
+        assert isinstance(other, DrocerMetadata)
+        if self.__hash__() == other.__hash__():
+            return 0
+        else:
+            return 1
+
+    def __str__(self):
+        _list = [str(key)+':'+str(self._dict[key]) for key in self._dict]
+        _list.sort()
+        return ','.join(_list)
+
+    def serial(self):
+        return self._dict
+
+    def __hash__(self):
+        _digest = hashlib.sha1(self.__str__()).hexdigest()
+        return int(_digest, 16)
+
+class DrocerDocument(DrocerSerializable):
+    title = ''
+    source_document_path = ''
+    pages = []
+    text = ''
+
+    def __init__(self, title, source_document_path):
+        self.title = title
+        self.source_document_path = source_document_path
+        self.meta = {}
+        self.text = ''
+        self.pages = []
+
+    def serial(self):
+        d = self.__dict__.copy()
+        d.update({
+            'pages': self.pages,
+            'meta': self.meta
+        })
+        return d
+
+class DrocerPage(DrocerSerializable):
+    number = 0
+    boxes = []
+    text = ''
+
+    def __init__(self, number):
+        self.number = number
+        self.meta = {}
+        self.boxes = []
+        self.text = ''
+
+    def serial(self):
+        d = self.__dict__.copy()
+        d.update({
+            'boxes': self.boxes,
+            'meta': self.meta
+        })
+        return d
+
+class DrocerBox(DrocerSerializable):
+    page_number = 0
+    number = 0
+    x0 = 0
+    y0 = 0
+    x1 = 0
+    y1 = 0
+    text = ''
+
+    def __init__(self, page_number, number, x0, y0, x1, y1, text):
+        self.page_number = page_number
+        self.number = number
+        self.x0 = x0
+        self.y0 = y0
+        self.x1 = x1
+        self.y1 = y1
+        self.text = text
+        self.meta = {}
