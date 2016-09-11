@@ -11,4 +11,3 @@ execfile(activate_this, dict(__file__=activate_this))
 # import application
 sys.path.insert(0, application_path)
 from app import wsgi_app as application # note the entry-point name 'application' is required by mod_uwsgi
-application.config.from_object('config')

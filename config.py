@@ -5,7 +5,7 @@ DEBUG = True
 
 # Define the application directory
 import os
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Define the database - we are working with
 # SQLite for this example
@@ -25,11 +25,15 @@ CSRF_ENABLED = True
 # generated with: hashlib.sha1(os.urandom(128)).hexdigest()
 
 # Use a secure, unique and absolutely secret key for
-# signing the data. 
+# signing the data.
 CSRF_SESSION_KEY = "093dfce55b9259d2521e67cdbeb3ad907f6d4d3c"
 
 # Secret key for signing cookies
 SECRET_KEY = "7a75e6cc32171cbe5fa68c4eee8cf36a6d4ce82b"
 
-# Path to page images
-PAGE_IMAGES_PATH = os.path.join(BASE_DIR,"data/png")
+# Paths to application data.
+PAGE_IMAGES_PATH = os.path.join(BASE_DIR, "data/png")
+SEARCH_INDEX_PATH = os.path.join(BASE_DIR, "data/index/city-record")
+SOURCE_DOCUMENT_PATH = os.path.join(BASE_DIR, "data/pdf")
+STRUCTURED_DOCUMENT_PATH = os.path.join(BASE_DIR, "data/json")
+

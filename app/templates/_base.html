@@ -31,8 +31,7 @@
             </div>
             <div class="row">
                 <input id="search">
-                
-                <button class="btn green"><i class="material-icons">search</i> Search</button>
+                <button class="btn green waves-effect waves-green" onclick="drocer.action.search()"><i class="material-icons">search</i> Search</button>
             </div>
             <div id="search-results" class="row">
             </div>
@@ -59,7 +58,7 @@
         </li>
       </ul>
       </div>
-    </header>  
+    </header>
     <main>
     <div class="container">
         <div class="row">
@@ -71,7 +70,7 @@
   <footer class="page-footer green">
   <div class="footer-copyright">
     <div class="container">
-        <div class="row">
+        <div class="row right">
     © 2016 Open Cleveland.
         </div>
     </div>
@@ -82,6 +81,7 @@
   <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/prism.js') }}"></script>
   <script src="{{ url_for('static', filename='js/sha.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/drocer.js') }}"></script>
 {% block script -%}
 {% endblock script -%}
 </html>

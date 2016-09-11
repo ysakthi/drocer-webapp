@@ -4,7 +4,13 @@ from flask import Flask, render_template, request, send_from_directory, session,
 # Define the WSGI application object.
 wsgi_app = Flask(__name__, static_url_path='/static', static_folder='static')
 
-# Import application classes.
+# Load configuration.
+wsgi_app.config.from_object('config')
+
+
+# Import application modules.
+from modules.searcher import DrocerSearcher
+drocer_searcher = DrocerSearcher(wsgi_app)
 
 # Setup logging.
 import logging
@@ -32,7 +38,6 @@ def error_handler_500(error):
     exc_type, exc_obj, exc_tb = sys.exc_info()
     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
     logger.debug(str(exc_type) + " " + str(fname) + " " + str(exc_tb.tb_lineno))
-
     return "Server error.", 500
 
 # Add page images route.
@@ -40,7 +45,7 @@ def error_handler_500(error):
 def custom_static(filename):
     return send_from_directory(wsgi_app.config['PAGE_IMAGES_PATH'], filename)
 
-# Add application routes
+# Add application routes.
 @wsgi_app.route('/', methods=['GET'])
 def route_landing():
     return render_template('landing.html')
@@ -52,4 +57,9 @@ def route_about():
 @wsgi_app.route('/browse', methods=['GET'])
 def route_browse():
     return render_template('browse.html')
+
+# Add search route.
+@wsgi_app.route ('/search', methods=['POST'])
+def route_search():
+    return drocer_searcher.search(request.form['q'])
 
