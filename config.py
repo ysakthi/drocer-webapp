@@ -30,3 +30,6 @@ CSRF_SESSION_KEY = "093dfce55b9259d2521e67cdbeb3ad907f6d4d3c"
 
 # Secret key for signing cookies
 SECRET_KEY = "7a75e6cc32171cbe5fa68c4eee8cf36a6d4ce82b"
+
+# Path to page images
+PAGE_IMAGES_PATH = os.path.join(BASE_DIR,"data/png")

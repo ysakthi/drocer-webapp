@@ -1,5 +1,5 @@
 # Import flask and template operators.
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, send_from_directory, session, redirect, url_for
 
 # Define the WSGI application object.
 wsgi_app = Flask(__name__, static_url_path='/static', static_folder='static')
@@ -34,6 +34,11 @@ def error_handler_500(error):
     logger.debug(str(exc_type) + " " + str(fname) + " " + str(exc_tb.tb_lineno))
 
     return "Server error.", 500
+
+# Add page images route.
+@wsgi_app.route('/page_images/<path:filename>')
+def custom_static(filename):
+    return send_from_directory(wsgi_app.config['PAGE_IMAGES_PATH'], filename)
 
 # Add application routes
 @wsgi_app.route('/', methods=['GET'])
