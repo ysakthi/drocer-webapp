@@ -1,5 +1,7 @@
 import hashlib
+import jsonpickle
 import logging
+import re
 
 class DrocerSerializable(object):
     """
@@ -77,6 +79,13 @@ class DrocerDocument(DrocerSerializable):
         self.text = ''
         self.pages = []
 
+    @staticmethod
+    def load(filename):
+        f = open(filename, 'r')
+        json_string = f.read()
+        f.close()
+        return jsonpickle.decode(json_string)
+
     def serial(self):
         d = self.__dict__.copy()
         d.update({
@@ -112,6 +121,33 @@ class DrocerDocument(DrocerSerializable):
                 for page in self.pages
             ]
         )
+
+    def get_boxes_for_term(self, term):
+        """
+        @param term tuple (field, matched_term)
+        """
+        field, matched_term = term
+        boxes = []
+        if field == 'content':
+            matcher = re.compile(matched_term)
+            for page in self.pages:
+                for box in page.boxes:
+                    result = matcher.search(box.text)
+                    if result:
+                        boxes.append(box)
+        if field == 'parcel_numbers':
+            for metadata in self.meta[field]:
+                if metadata['parcel_number'] == matched_term:
+                    boxes.append(
+                        self.pages[metadata['page_number']-1].boxes[metadata['box_number']-1]
+                    )
+        if field == 'ordres_numbers':
+            for metadata in self.meta[field]:
+                if metadata['ordres_number'] == matched_term:
+                    boxes.append(
+                        self.pages[metadata['page_number']-1].boxes[metadata['box_number']-1]
+                    )
+        return boxes
 
 class DrocerPage(DrocerSerializable):
     number = 0

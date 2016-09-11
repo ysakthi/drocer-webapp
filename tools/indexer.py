@@ -14,6 +14,8 @@ import timeit
 
 import whoosh.fields
 import whoosh.index
+import whoosh.analysis
+import whoosh.support.charset
 
 from modules.document_structure import DrocerSerializable
 from modules.document_structure import DrocerDocument
@@ -38,10 +40,12 @@ if __name__ == '__main__':
     start_time = timeit.default_timer()
 
     # Create schema.
+    whoosh_analyzer = whoosh.analysis.StemmingAnalyzer() | whoosh.analysis.CharsetFilter(whoosh.support.charset.accent_map)
     whoosh_schema = whoosh.fields.Schema(
         title = whoosh.fields.TEXT(stored = True),
-        content = whoosh.fields.TEXT(stored = True),
-        path = whoosh.fields.ID(stored = True),
+        content = whoosh.fields.TEXT(stored = True, analyzer = whoosh_analyzer),
+        source_document_path = whoosh.fields.ID(stored = True),
+        structured_document_path = whoosh.fields.ID(stored = True),
         ordres_numbers = whoosh.fields.KEYWORD(stored = True, scorable = True, commas = True),
         parcel_numbers = whoosh.fields.KEYWORD(stored = True, scorable = True, commas = True)
     )
@@ -62,7 +66,8 @@ if __name__ == '__main__':
             whoosh_writer.add_document(
                 title = document.title,
                 content = document.get_index_text(),
-                path = document.source_document_path,
+                source_document_path = document.source_document_path,
+                structured_document_path = unicode(path),
                 ordres_numbers = document.get_index_metadata('ordres_numbers'),
                 parcel_numbers = document.get_index_metadata('parcel_numbers')
             )
