@@ -50,6 +50,13 @@ class DrocerMetadata(DrocerSerializable):
         else:
             return 1
 
+    def __getitem__(self, key):
+        return self._dict[key]
+
+    def __hash__(self):
+        _digest = hashlib.sha1(self.__str__()).hexdigest()
+        return int(_digest, 16)
+
     def __str__(self):
         _list = [str(key)+':'+str(self._dict[key]) for key in self._dict]
         _list.sort()
@@ -58,9 +65,6 @@ class DrocerMetadata(DrocerSerializable):
     def serial(self):
         return self._dict
 
-    def __hash__(self):
-        _digest = hashlib.sha1(self.__str__()).hexdigest()
-        return int(_digest, 16)
 
 class DrocerDocument(DrocerSerializable):
     title = ''
@@ -82,6 +86,34 @@ class DrocerDocument(DrocerSerializable):
             'meta': self.meta
         })
         return d
+
+    def get_index_metadata(self, metadata_field):
+        """
+        @returns CSV string of values from metadata where metadata field
+                 is plural and the items contain a singular element of
+                 the same name.
+        """
+        return ','.join(
+            [
+                item[metadata_field[:-1]]
+                for item in self.meta[metadata_field]
+            ]
+        )
+
+    def get_index_text(self):
+        page_delim = ' '
+        box_delim = ' '
+        return page_delim.join(
+            [
+                box_delim.join([
+                    box.text
+                    for box in page.boxes
+                    if box.meta.has_key('page_location') and
+                       'body' in box.meta['page_location']
+                ])
+                for page in self.pages
+            ]
+        )
 
 class DrocerPage(DrocerSerializable):
     number = 0
