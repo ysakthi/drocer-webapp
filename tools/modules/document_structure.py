@@ -10,9 +10,7 @@ class DrocerSerializable(object):
     def add_metadata(self, key, value):
         self.logger.debug('[%s] = %s' % (key, value))
         """
-        If reference object is supplied, then self.meta[key][value] is a
-        dict.  Otherwise, self.meta[key][value] is a value.
-        @param reference DrocerMetadata Optional.
+        Add metadata to a named list.
         """
         if key in self.meta.keys():
             for item in self.meta[key]:
