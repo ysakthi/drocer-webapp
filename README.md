@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 ## Extraction and indexing.
 
- - Download source PDFs from [http://www.clevelandcitycouncil.org/legislation-laws/the-city-record](Cleveland City Council) and place in `data/pdf`.
+ - Download source PDFs from [Cleveland City Council](http://www.clevelandcitycouncil.org/legislation-laws/the-city-record) and place in `data/pdf`.
  - Enter tools directory, run the extractor: `python extractor.py`.  This writes JSON files to `data/json`.
  - Enter tools directory, run the indexer: `python indexer.py`.  This creates a Whoosh index in `data/index/city-record`.
  - Enter tools directory, run the image extractor script: `./convert-pdf-to-png.sh`.  This creates a PNG file for each page in the source PDFs.
