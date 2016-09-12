@@ -4,3 +4,4 @@ if __name__ == '__main__':
     # >>> int('cle'.encode('hex'), 16)
     # 6515813
     wsgi_app.run(debug=True, host='127.65.158.13', port=3000)
+    #wsgi_app.run(debug=True, host='0.0.0.0', port=3000)

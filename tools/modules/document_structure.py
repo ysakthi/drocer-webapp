@@ -129,7 +129,7 @@ class DrocerDocument(DrocerSerializable):
         field, matched_term = term
         boxes = []
         if field == 'content':
-            matcher = re.compile(matched_term)
+            matcher = re.compile(matched_term, re.IGNORECASE)
             for page in self.pages:
                 for box in page.boxes:
                     result = matcher.search(box.text)

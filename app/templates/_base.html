@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="row">
-                <input id="search">
+                <input id="search-input">
                 <button class="btn green waves-effect waves-green" onclick="drocer.action.search()"><i class="material-icons">search</i> Search</button>
             </div>
             <div id="search-results" class="row">
@@ -60,6 +60,9 @@
       </div>
     </header>
     <main>
+    <div id= "page-image-overlay" style="position: absolute; background: rgba(255, 255, 0, 0.35); z-index:950; height:0px; width:0px; top:0px, left:0px"></div>
+    <div class="container" id="page-image-container">
+    </div>
     <div class="container">
         <div class="row">
   {% block body -%}

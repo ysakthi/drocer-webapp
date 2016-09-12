@@ -77,7 +77,7 @@ def process_pdf(title, path):
                     pass
             output_document.pages.append(output_page)
     return output_document
-    
+
 def write_json(output_directory, document):
     """
     @param output_directory string Directory to write output files.
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     logger.info('Starting %s.' % TOOL_NAME)
     logger.info('Reading PDF files from %s.' % INPUT_PATH)
     logger.info('Writing JSON files to %s.' % OUTPUT_PATH)
-    
+
     # Setup timer.
     start_time = timeit.default_timer()
 
@@ -126,8 +126,8 @@ if __name__ == '__main__':
             write_json(OUTPUT_PATH, document)
         else:
             logger.info('Skipping input file: %s' % filename)
-            
+
     elapsed = timeit.default_timer() - start_time
     logger.info('%s complete.  Run time %ss' % (TOOL_NAME, elapsed))
-            
+
 
