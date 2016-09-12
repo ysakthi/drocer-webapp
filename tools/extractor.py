@@ -66,8 +66,8 @@ def process_pdf(title, path):
                         page_number,
                         box_number,
                         pdf_obj.x0,
-                        pdf_obj.x1,
                         pdf_obj.y0,
+                        pdf_obj.x1,
                         pdf_obj.y1,
                         pdf_obj.get_text().encode('utf8')
                     )
