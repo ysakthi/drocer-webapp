@@ -12,7 +12,14 @@ pip install -r requirements.txt
 
 ```
 
-## Running
+## Extraction and indexing.
+
+ - Download source PDFs from [http://www.clevelandcitycouncil.org/legislation-laws/the-city-record](Cleveland City Council) and place in `data/pdf`.
+ - Enter tools directory, run the extractor: `python extractor.py`.  This writes JSON files to `data/json`.
+ - Enter tools directory, run the indexer: `python indexer.py`.  This creates a Whoosh index in `data/index/city-record`.
+ - Enter tools directory, run the image extractor script: `./convert-pdf-to-png.sh`.  This creates a PNG file for each page in the source PDFs.
+
+## Running the web server
 
  - Development environment server: `python run.py`.
  - Production server configuration is defined in drocer.wsgi
