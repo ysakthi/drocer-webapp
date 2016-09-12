@@ -69,9 +69,9 @@ drocer.ui.render_search_results = function(results){
                     ov.style.width = page_box.width+'px';
                     ov.style.top = page_box.top+'px';
                     ov.style.left = page_box.left+'px';
-                    window.DEBUG_PAGE_BOX = page_box;
-                    var scroll_x = page_box.left - 325;
-                    var scroll_y = page_box.top - 25;
+                    window.DEBUG_PAGE_BOX = page_box;//debug
+                    var scroll_x = page_box.left - 325; // aesthetic offset(25) + menu width offset(300)
+                    var scroll_y = page_box.top - 25;   // aesthetic offset(25)
                     console.log('scrolling: window.scrollTo('+scroll_x+','+scroll_y+')');
                     window.scrollTo(scroll_x, scroll_y);
                 }
@@ -80,7 +80,7 @@ drocer.ui.render_search_results = function(results){
                 page_image.style.zIndex = 900;
                 var page_image_container = document.getElementById(drocer.settings.page_image_container);
                 $(page_image_container).html(page_image);
-                window.DEBUG_BOX = box;
+                window.DEBUG_BOX = box;//debug
             };
             p.appendChild(txt);
             a.appendChild(p);
@@ -90,20 +90,23 @@ drocer.ui.render_search_results = function(results){
     }
     $(results_container).html(ul);
 };
+/**
+ * Convert PDF BBox coordinates to page image coordinates.
+ * @param box DrocerBox with x0,y0,x1,y1 in points (lower-left origin).
+ * @returns Object with top, left, height, and width in px (top-left origin).
+ * 
+ */
 drocer.ui.box_to_page = function(box){
-    window.scrollTo(0,0);
-    var body_rect = document.body.getBoundingClientRect()
-    // images are 1466x1903
+    window.scrollTo(0,0); // reset page offset; simplifies location calculation
+    // note: images converted at 175 dpi are 1466px x 1903px
     var img_rect = document.getElementById('page-image').getBoundingClientRect();
-    //var x_scale = img_rect.width / 800;
-    //var y_scale = img_rect.height / 800;
-    var x_scale = 175 / 72;
+    var x_scale = 175 / 72; // convert dpi / source dpi
     var y_scale = 175 / 72; // convert dpi / source dpi
     function page_x(x){
-        return img_rect.left + body_rect.left + x * x_scale;
+        return img_rect.left + x * x_scale;
     }
     function page_y(y){
-        return body_rect.top + img_rect.top + img_rect.height - y * y_scale;
+        return img_rect.top + img_rect.height - y * y_scale;
     }
     return {
         top: page_y(box.y1),
