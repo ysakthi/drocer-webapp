@@ -87,6 +87,8 @@ class DrocerSearcher(object):
                     repr(hit.matched_terms())
             ))
             client_boxes = []
+            terms = hit.matched_terms()
+            terms.append(('content', query_string))
             for term in hit.matched_terms():
                 # note: term is a tuple of (field, matched_term)
                 boxes = document.get_boxes_for_term(term)
