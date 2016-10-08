@@ -45,7 +45,13 @@ class DrocerSearcher(object):
         self.whoosh_index = whoosh.index.open_dir(self.index_path)
         self.whoosh_searcher = self.whoosh_index.searcher()
         self.whoosh_parser = whoosh.qparser.MultifieldParser(
-            ["title", "content", "ordres_numbers", "parcel_numbers"],
+            [
+                "title",
+                "content",
+                "ordres_numbers",
+                "parcel_numbers",
+                "calendar_numbers"
+            ],
             schema = self.whoosh_index.schema
         )
 
@@ -82,6 +88,7 @@ class DrocerSearcher(object):
             ))
             client_boxes = []
             for term in hit.matched_terms():
+                # note: term is a tuple of (field, matched_term)
                 boxes = document.get_boxes_for_term(term)
                 for box in boxes:
                     if len(term[1]) > len(query_string) / 2: # ignore short matches

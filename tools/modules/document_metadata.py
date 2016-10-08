@@ -59,3 +59,22 @@ def add_ordres_numbers_to_document(document):
                 })
                 document.add_metadata('ordres_numbers', metadata)
                 #print "page: %s, box %s: %s in %s" % (page.number, box.number, result.group(0), box.text)
+
+# match calendar numbers
+def add_calendar_numbers_to_document(document):
+    """
+    @param document DrocerDocument
+    """
+    for page in document.pages:
+        for box in page.boxes:
+            matcher = re.compile('(Calendar  No.  )([0-9]*-[0-9]*)')
+            result = matcher.search(box.text)
+            if result:
+                calendar_number = result.group(2)
+                metadata = DrocerMetadata({
+                    'calendar_number': calendar_number,
+                    'page_number': box.page_number,
+                    'box_number': box.number
+                })
+                document.add_metadata('calendar_numbers', metadata)
+                #print "page: %s, box %s: %s in %s" % (page.number, box.number, result.group(0), box.text)

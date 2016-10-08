@@ -47,7 +47,8 @@ if __name__ == '__main__':
         source_document_path = whoosh.fields.ID(stored = True),
         structured_document_path = whoosh.fields.ID(stored = True),
         ordres_numbers = whoosh.fields.KEYWORD(stored = True, scorable = True, commas = True),
-        parcel_numbers = whoosh.fields.KEYWORD(stored = True, scorable = True, commas = True)
+        parcel_numbers = whoosh.fields.KEYWORD(stored = True, scorable = True, commas = True),
+        calendar_numbers = whoosh.fields.KEYWORD(stored = True, scorable = True, commas = True)
     )
 
     # Create index.
@@ -69,7 +70,8 @@ if __name__ == '__main__':
                 source_document_path = document.source_document_path,
                 structured_document_path = unicode(path),
                 ordres_numbers = document.get_index_metadata('ordres_numbers'),
-                parcel_numbers = document.get_index_metadata('parcel_numbers')
+                parcel_numbers = document.get_index_metadata('parcel_numbers'),
+                calendar_numbers = document.get_index_metadata('calendar_numbers')
             )
 
     # Write index.

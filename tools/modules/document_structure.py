@@ -100,12 +100,16 @@ class DrocerDocument(DrocerSerializable):
                  is plural and the items contain a singular element of
                  the same name.
         """
-        return ','.join(
-            [
-                item[metadata_field[:-1]]
-                for item in self.meta[metadata_field]
-            ]
-        )
+        try:
+            return ','.join(
+                [
+                    item[metadata_field[:-1]]
+                    for item in self.meta[metadata_field]
+                ]
+            )
+        except KeyError:
+            self.logger.debug('No metadata for field %s' % metadata_field)
+            return ''
 
     def get_index_text(self):
         page_delim = ' '
@@ -135,15 +139,9 @@ class DrocerDocument(DrocerSerializable):
                     result = matcher.search(box.text)
                     if result:
                         boxes.append(box)
-        if field == 'parcel_numbers':
+        if field in self.meta:
             for metadata in self.meta[field]:
-                if metadata['parcel_number'] == matched_term:
-                    boxes.append(
-                        self.pages[metadata['page_number']-1].boxes[metadata['box_number']-1]
-                    )
-        if field == 'ordres_numbers':
-            for metadata in self.meta[field]:
-                if metadata['ordres_number'] == matched_term:
+                if metadata[field[:-1]] == matched_term:
                     boxes.append(
                         self.pages[metadata['page_number']-1].boxes[metadata['box_number']-1]
                     )

@@ -123,6 +123,7 @@ if __name__ == '__main__':
             document_metadata.add_page_location_to_boxes(document)
             document_metadata.add_parcel_numbers_to_document(document)
             document_metadata.add_ordres_numbers_to_document(document)
+            document_metadata.add_calendar_numbers_to_document(document)
             write_json(OUTPUT_PATH, document)
         else:
             logger.info('Skipping input file: %s' % filename)
