@@ -142,9 +142,8 @@ class DrocerDocument(DrocerSerializable):
         if field in self.meta:
             for metadata in self.meta[field]:
                 if metadata[field[:-1]] == matched_term:
-                    boxes.append(
-                        self.pages[metadata['page_number']-1].boxes[metadata['box_number']-1]
-                    )
+                    box = self.pages[metadata['page_number']-1].boxes[metadata['box_number']-1]
+                    boxes.append(box)
         return boxes
 
 class DrocerPage(DrocerSerializable):
