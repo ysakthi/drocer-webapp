@@ -27,6 +27,7 @@ def add_parcel_numbers_to_document(document):
     """
     for page in document.pages:
         for box in page.boxes:
+            # cuyahoga county parcel number regex
             matcher = re.compile('([0-9]{3})-?([0-9]{2})-?([0-9]{3}[a-zA-Z]?)')
             result = matcher.search(box.text)
             if result:
@@ -46,7 +47,8 @@ def add_ordres_numbers_to_document(document):
     """
     for page in document.pages:
         for box in page.boxes:
-            matcher = re.compile('[0-9]{3}-[0-9]{2}')
+            # match 1-5 digits, dash, 2 digits, not followed by a dash
+            matcher = re.compile('[0-9]{1,5}-[0-9]{2}(?!-)')
             result = matcher.search(box.text)
             if result:
                 ordres_number = result.group(0)
