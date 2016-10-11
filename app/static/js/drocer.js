@@ -35,7 +35,8 @@ drocer.callback.search = function(response){
 drocer.action.overlay_click = function(){
     var ov = document.getElementById(drocer.settings.page_overlay_element);
     ov.style.background = 'rgba(255, 255, 165, 1)';
-    $(ov).text(drocer.state.match_box_text);
+    var box_text_html = drocer.state.match_box_text.replace('\n', '<br>');
+    $(ov).html(box_text_html);
     $(ov).unbind('click');
     ov.title = '';
 };
@@ -156,7 +157,7 @@ drocer.ui.render_search_results = function(results){
                         var ov = document.getElementById(drocer.settings.page_overlay_element);
                         ov.title = 'Click to select text.';
                         ov.style.background = 'rgba(255, 255, 0, 0.35)';
-                        $(ov).text('');
+                        $(ov).html('');
                         $(ov).bind('click', drocer.action.overlay_click);
                         page_box = drocer.ui.box_to_page(box);
                         ov.style.height = page_box.height+'px';
