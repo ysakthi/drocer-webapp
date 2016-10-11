@@ -32,6 +32,13 @@ drocer.callback.search = function(response){
         drocer.ui.result_controls_hide();
     }
 };
+drocer.action.overlay_click = function(){
+    var ov = document.getElementById(drocer.settings.page_overlay_element);
+    ov.style.background = 'rgba(255, 255, 165, 1)';
+    $(ov).text(drocer.state.match_box_text);
+    $(ov).unbind('click');
+    ov.title = '';
+};
 drocer.action.page_previous = function(){
     drocer.ui.page_change(-1);
 };
@@ -138,6 +145,7 @@ drocer.ui.render_search_results = function(results){
                     drocer.state.document_name = document_name;
                     drocer.state.page_number = box.page_number;
                     drocer.state.match_number = this.getAttribute('data-drocer-match-number');
+                    drocer.state.match_box_text = box.text;
                     $('[data-drocer-match-number]').css('background-color', '');
                     $(this).css('background-color', '#a5d6a7');
                     // load page image
@@ -146,6 +154,10 @@ drocer.ui.render_search_results = function(results){
                     page_image.onload = function(){
                         // position overlay on match box
                         var ov = document.getElementById(drocer.settings.page_overlay_element);
+                        ov.title = 'Click to select text.';
+                        ov.style.background = 'rgba(255, 255, 0, 0.35)';
+                        $(ov).text('');
+                        $(ov).bind('click', drocer.action.overlay_click);
                         page_box = drocer.ui.box_to_page(box);
                         ov.style.height = page_box.height+'px';
                         ov.style.width = page_box.width+'px';
