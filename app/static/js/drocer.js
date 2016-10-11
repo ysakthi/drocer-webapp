@@ -39,7 +39,11 @@ drocer.action.page_next = function(){
     drocer.ui.page_change(1);
 };
 drocer.ui.page_change = function(direction){
-    drocer.state.page_number = parseInt(drocer.state.page_number) + direction;
+    var current_page = parseInt(drocer.state.page_number);
+    if(current_page == 1 && direction < 0){
+        return;
+    }
+    drocer.state.page_number = current_page + direction;
     var page_image_url = './page_images/'+drocer.state.document_name+'-'+drocer.state.page_number+'.png';
     var page_image = new Image();
     page_image.src = page_image_url;
