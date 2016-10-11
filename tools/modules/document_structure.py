@@ -109,7 +109,7 @@ class DrocerDocument(DrocerSerializable):
             )
         except KeyError:
             self.logger.debug('No metadata for field %s' % metadata_field)
-            return ''
+            return u''
 
     def get_index_text(self):
         page_delim = ' '
