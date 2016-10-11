@@ -24,8 +24,8 @@ drocer.action.search = function(){
 };
 drocer.callback.search = function(response){
     window.DEBUG_SEARCH = response;//debug
-    if(response.length > 0){
-        drocer.ui.render_search_results(response);
+    if(response.matches.length > 0){
+        drocer.ui.render_search_results(response.matches);
         drocer.ui.result_controls_show();
     } else {
         $(document.getElementById(drocer.settings.search_results_element)).html('No results.');

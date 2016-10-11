@@ -21,6 +21,27 @@ from tools.modules.document_structure import DrocerDocument
 from tools.modules.document_structure import DrocerPage
 from tools.modules.document_structure import DrocerBox
 
+class DrocerTimer(object):
+    timers = None
+    def __init__(self):
+        self.timers = {}
+
+    def start(self, timer_name):
+        self.timers[timer_name] = {
+            'start': timeit.default_timer(),
+            'stop': 0
+        }
+
+    def stop(self, timer_name):
+        if timer_name in self.timers:
+            self.timers[timer_name]['stop'] = timeit.default_timer()
+
+    def get_elapsed_times(self):
+        return [
+            {timer_name : self.timers[timer_name]['stop'] - self.timers[timer_name]['start']}
+            for timer_name in self.timers.keys()
+        ]
+
 class DrocerSearcher(object):
     app = None
     index_path = None
@@ -72,11 +93,19 @@ class DrocerSearcher(object):
         return jsonpickle.decode(modified)
 
     def search(self, query_string):
+        performance = DrocerTimer()
+        performance.start('DrocerSearcher.search()')
+        performance.start('DrocerSearcher.search():parse')
         whoosh_query = self.whoosh_parser.parse(query_string)
+        performance.stop('DrocerSearcher.search():parse')
+        performance.start('DrocerSearcher.search():search')
         whoosh_results = self.whoosh_searcher.search(whoosh_query, terms=True)
+        performance.stop('DrocerSearcher.search():search')
         whoosh_results.fragmenter.charlimit = None # turn off length limit for highlights
         self.logger.info('Search: %s' % query_string)
+        client_envelope = {}
         client_results = []
+        performance.start('DrocerSearcher.search():results_loop')
         for hit in whoosh_results:
             structured_document_path = self.get_structured_document_path(hit.fields()['structured_document_path'])
             #self.logger.debug('Loading JSON document: %s' % structured_document_path)#debug
@@ -108,4 +137,8 @@ class DrocerSearcher(object):
                     'document_name': self.get_document_name(hit['structured_document_path']),
                     'boxes': client_boxes
                 })
-        return jsonpickle.encode(client_results)
+        performance.stop('DrocerSearcher.search():results_loop')
+        performance.stop('DrocerSearcher.search()')
+        client_envelope['performance'] = performance.get_elapsed_times()
+        client_envelope['matches'] = client_results
+        return jsonpickle.encode(client_envelope)
