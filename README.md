@@ -28,3 +28,6 @@ pip install -r requirements.txt
  - [jQuery](https://jquery.com/)
  - [Materialize CSS](http://materializecss.com/)
  - [Prism JS](http://prismjs.com/)
+
+
+This site is viewable at [http://cityrecord.openfordata.com/browse](http://cityrecord.openfordata.com/browse)
